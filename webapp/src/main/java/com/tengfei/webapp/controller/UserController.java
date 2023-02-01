@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @RestController
 public class UserController {
@@ -24,9 +25,21 @@ public class UserController {
     }
 
     @PostMapping("/v1/user")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+    public ResponseEntity<String> createUser(@Valid @RequestBody User user){
+
+        if (user.getEmail()==null || user.getPassword()==null || user.getLastName()==null || user.getFirstName()==null){
+            return ResponseEntity.status(400).build();
+        }
 
         if (repository.findByEmail(user.getEmail())!=null){
+            return ResponseEntity.status(400).build();
+        }
+
+        //check valid email address
+        String emailAddress = user.getEmail();
+        String regexPattern = "^(.+)@(\\S+)$";
+        boolean patternMatches = patternMatches(emailAddress, regexPattern);
+        if (!patternMatches){
             return ResponseEntity.status(400).build();
         }
 
@@ -51,10 +64,6 @@ public class UserController {
                 || userDetails.getAccount_created()!=null || userDetails.getId()!=null){
             return ResponseEntity.badRequest().build();
         }
-//        if (userDetails.getFirstName()!=null){
-//
-//        }
-//
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication==null){
@@ -69,6 +78,7 @@ public class UserController {
             User user = repository
                     .findById(userId)
                     .orElseThrow(() -> new UserNotFoundException("User not found on : " + userId));
+
 
             if (userDetails.getFirstName()!=null && userDetails.getFirstName().length()>0){
                 user.setFirstName(userDetails.getFirstName());
@@ -91,25 +101,36 @@ public class UserController {
     }
 
     @GetMapping("/v1/user/{userId}")
-    public User retrieveUserAccountInfo(@PathVariable int userId) {
+    public ResponseEntity<User> retrieveUserAccountInfo(@PathVariable int userId) {
         Optional<User> user = repository.findById(userId);
-        if (user.isEmpty())
-            throw new UserNotFoundException("id" + userId);
-        User displayedUser=new User();
 
-        //hide password
-        displayedUser.setId(user.get().getId());
-        displayedUser.setEmail(user.get().getEmail());
-        displayedUser.setFirstName(user.get().getFirstName());
-        displayedUser.setLastName(user.get().getLastName());
-        displayedUser.setAccount_created(user.get().getAccount_created());
-        displayedUser.setAccount_updated(user.get().getAccount_updated());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication==null){
+            return ResponseEntity.status(401).build();
+        }
 
-        return displayedUser;
+        String username = authentication.getName();
+        User loginUser = repository.findByEmail(username);
+
+        if (loginUser.getId().equals(userId)){
+            if (user.isEmpty())
+                throw new UserNotFoundException("id" + userId);
+
+            return ResponseEntity.ok(user.get());
+        }else {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @GetMapping("/healthz")
     public ResponseEntity<String> getHealth(){
         return ResponseEntity.ok("200 OK");
+    }
+
+    public static boolean patternMatches(String emailAddress, String regexPattern) {
+        return Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
     }
 }
