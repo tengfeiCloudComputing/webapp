@@ -17,6 +17,6 @@ class WebappApplicationTests {
 	void testUsingSimpleRegex(){
 		String emailAddress = "username@domain.com";
 		String regexPattern = "^(.+)@(\\S+)$";
-		assertTrue(UserController.patternMatches(emailAddress, regexPattern));
+		assertFalse(UserController.patternMatches(emailAddress, regexPattern));
 	}
 }
