@@ -12,9 +12,10 @@ class WebappApplicationTests {
 
 	@Test
 	void testUsingSimpleRegex(){
-		String emailAddress = "username@domain.com";
+		String emailAddress = "username";
+//		String emailAddress = "username@domain.com";
 		String regexPattern = "^(.+)@(\\S+)$";
-		assertFalse(UserController.patternMatches(emailAddress, regexPattern));
-//		assertTrue(UserController.patternMatches(emailAddress, regexPattern));
+//		assertFalse(UserController.patternMatches(emailAddress, regexPattern));
+		assertTrue(UserController.patternMatches(emailAddress, regexPattern));
 	}
 }
