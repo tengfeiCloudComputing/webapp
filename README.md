@@ -1,7 +1,7 @@
 # webapp
 > aim to build a cloud native web application
 
-## Technology Stack
+## Tech Stack
 A cloud-native application is an application that is specifically designed for cloud computing architecture. It takes advantage of cloud computing frameworks, which are composed of loosely coupled cloud services.
 
 **Programming Language:** Java 17
@@ -12,9 +12,37 @@ A cloud-native application is an application that is specifically designed for c
 
 **Backend Framework:** Spring Boot 3.0
 
+**Build Tool:** Maven
+
 **UI Framework:** N/A
 
 **CSS:** N/A
+
+
+
+---
+
+
+
+## Prerequisite
+
+User class: user attributes UserRepository class: get, select, update, delete users UserService class: the main controller BCrypt class: downloaded from "http://www.mindrot.org/projects/jBCrypt/", store password securely
+
+Token creation: encoded from user's email and password
+
+
+
+Install JDK17, InteliJ Idea, MySQL and build the app with maven
+
+Install Postman to test APIs
+
+
+
+## Deploy Instructions
+
+Deploy the application locally on Tomcat
+
+
 
 ## User Story
 
