@@ -117,7 +117,7 @@ public class UserController {
 
             return ResponseEntity.ok(user.get());
         }else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(403).build();
         }
     }
 
