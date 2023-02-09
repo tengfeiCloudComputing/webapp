@@ -109,7 +109,7 @@ public class ProductController {
                 product.get().setDescription(productDetail.getDescription());
             }
             if (productDetail.getSku()!=null && productDetail.getSku().length()>0){
-                if (productRepository.findBySku(productDetail.getSku())==null){
+                if (productRepository.findBySku(productDetail.getSku())==null || product.get().getSku().equals(productDetail.getSku())){
                     product.get().setSku(productDetail.getSku());
                 }else{
                     return ResponseEntity.badRequest().build();
@@ -162,7 +162,7 @@ public class ProductController {
                 product.get().setDescription(productDetail.getDescription());
             }
             if (productDetail.getSku()!=null && productDetail.getSku().length()>0){
-                if (productRepository.findBySku(productDetail.getSku())==null){
+                if (productRepository.findBySku(productDetail.getSku())==null || product.get().getSku().equals(productDetail.getSku())){
                     product.get().setSku(productDetail.getSku());
                 }else{
                     return ResponseEntity.badRequest().build();
