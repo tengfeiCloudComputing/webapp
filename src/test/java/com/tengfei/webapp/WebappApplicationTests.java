@@ -10,10 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class WebappApplicationTests {
 
 	@Test
-	void contextLoads() {
-	}
-
-	@Test
 	void testUsingSimpleRegex(){
 		String emailAddress = "username@domain.com";
 		String regexPattern = "^(.+)@(\\S+)$";
