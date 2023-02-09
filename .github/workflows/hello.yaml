@@ -31,6 +31,8 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: maven
+      - name: Maven test
+        run: mvn --batch-mode test
       # Runs a set of commands using the runners shell
-      - name: Build with Maven
-        run: mvn clean install
+#      - name: Build with Maven
+#        run: mvn clean install
