@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class WebappApplicationTests {
+class WebappApplicationTest {
 
 	@Test
 	void testUsingSimpleRegex(){
-		String emailAddress = "username@domain.com";
+		String emailAddress = "username@domain";
 		String regexPattern = "^(.+)@(\\S+)$";
 //		assertFalse(UserController.patternMatches(emailAddress, regexPattern));
 		assertTrue(UserController.patternMatches(emailAddress, regexPattern));
