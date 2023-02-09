@@ -25,14 +25,14 @@ public class UserController {
     }
 
     @PostMapping("/v1/user")
-    public ResponseEntity<String> createUser(@Valid @RequestBody User user){
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
 
         if (user.getUsername()==null || user.getPassword()==null || user.getLastName()==null || user.getFirstName()==null){
             return ResponseEntity.status(400).build();
         }
 
         if (repository.findByUsername(user.getUsername())!=null){
-            return ResponseEntity.status(400).build();
+            return ResponseEntity.status(403).build();
         }
 
         //check valid email address
@@ -50,12 +50,8 @@ public class UserController {
 //        String authHeader = "Basic " + encoding;
         user.setPassword(encoding);
         repository.saveAndFlush(user);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(user.getId())
-                .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.status(201).body(user);
     }
 
     @PutMapping("/v1/user/{userId}")
@@ -93,9 +89,9 @@ public class UserController {
             }
 
             final User updatedUser =  repository.saveAndFlush(user);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(204).build();
         }else{
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(403).build();
         }
     }
 
