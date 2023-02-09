@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 @RestController
 public class UserController {
-    private UserRepository repository;
+    private final UserRepository repository;
 
     public UserController(UserRepository repository){
         this.repository=repository;
@@ -27,16 +27,16 @@ public class UserController {
     @PostMapping("/v1/user")
     public ResponseEntity<String> createUser(@Valid @RequestBody User user){
 
-        if (user.getEmail()==null || user.getPassword()==null || user.getLastName()==null || user.getFirstName()==null){
+        if (user.getUsername()==null || user.getPassword()==null || user.getLastName()==null || user.getFirstName()==null){
             return ResponseEntity.status(400).build();
         }
 
-        if (repository.findByEmail(user.getEmail())!=null){
+        if (repository.findByUsername(user.getUsername())!=null){
             return ResponseEntity.status(400).build();
         }
 
         //check valid email address
-        String emailAddress = user.getEmail();
+        String emailAddress = user.getUsername();
         String regexPattern = "^(.+)@(\\S+)$";
         boolean patternMatches = patternMatches(emailAddress, regexPattern);
         if (!patternMatches){
@@ -46,7 +46,7 @@ public class UserController {
         BCryptPasswordEncoderBean bCryptPasswordEncoder=new BCryptPasswordEncoderBean();
         String encoding= bCryptPasswordEncoder.bCryptPasswordEncoder().encode(user.getPassword());
 
-//        String encoding = Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
+//        String encoding = Base64.getEncoder().encodeToString((user.getUsername()() + ":" + user.getPassword()).getBytes());
 //        String authHeader = "Basic " + encoding;
         user.setPassword(encoding);
         repository.saveAndFlush(user);
@@ -60,7 +60,7 @@ public class UserController {
 
     @PutMapping("/v1/user/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable int userId,@Valid @RequestBody User userDetails){
-        if (userDetails.getEmail()!=null || userDetails.getAccount_updated()!=null
+        if (userDetails.getUsername()!=null || userDetails.getAccount_updated()!=null
                 || userDetails.getAccount_created()!=null || userDetails.getId()!=null){
             return ResponseEntity.badRequest().build();
         }
@@ -71,7 +71,7 @@ public class UserController {
         }
 
         String username = authentication.getName();
-        User loginUser = repository.findByEmail(username);
+        User loginUser = repository.findByUsername(username);
 
         // the same authenticated user
         if (loginUser.getId().equals(userId)){
@@ -97,7 +97,6 @@ public class UserController {
         }else{
             return ResponseEntity.badRequest().build();
         }
-
     }
 
     @GetMapping("/v1/user/{userId}")
@@ -110,7 +109,7 @@ public class UserController {
         }
 
         String username = authentication.getName();
-        User loginUser = repository.findByEmail(username);
+        User loginUser = repository.findByUsername(username);
 
         if (loginUser.getId().equals(userId)){
             if (user.isEmpty())
@@ -120,7 +119,6 @@ public class UserController {
         }else {
             return ResponseEntity.badRequest().build();
         }
-
     }
 
     @GetMapping("/healthz")
