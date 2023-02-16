@@ -42,7 +42,7 @@ public class ProductController {
         }
 
         if (product.getSku()==null || product.getName()==null
-                || (product.getQuantity()<0 || product.getQuantity()>100) || product.getManufacturer()==null){
+                || (product.getQuantity()<0 || product.getQuantity()>100) || product.getManufacturer()==null || product.getDescription()==null){
             return ResponseEntity.badRequest().build();
         }
 
@@ -82,6 +82,7 @@ public class ProductController {
                 || productDetail.getDate_last_updated()!=null){
             return ResponseEntity.badRequest().build();
         }
+
         //The product can only be updated by the user that created it.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication==null){
@@ -92,6 +93,12 @@ public class ProductController {
         User loginUser = userRepository.findByUsername(username);
 
         Optional<Product> product = productRepository.findById(productId);
+
+        if (productDetail.getSku()==null || productDetail.getName()==null
+                || (productDetail.getQuantity()<0 || productDetail.getQuantity()>100) || productDetail.getManufacturer()==null || productDetail.getDescription()==null){
+            return ResponseEntity.badRequest().build();
+        }
+
         if (product.isEmpty()){
             return ResponseEntity.badRequest().build();
         }
