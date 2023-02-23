@@ -33,15 +33,15 @@ variable "aws_devuser" {
   default = "266883092057"
 }
 
-variable "aws_access_key_id" {
-  type    = string
-  default = env("AWS_ACCESS_KEY_ID")
-}
+// variable "aws_access_key_id" {
+//   type    = string
+//   default = env("AWS_ACCESS_KEY_ID")
+// }
 
-variable "aws_secret_access_key" {
-  type    = string
-  default = env("AWS_SECRET_ACCESS_KEY")
-}
+// variable "aws_secret_access_key" {
+//   type    = string
+//   default = env("AWS_SECRET_ACCESS_KEY")
+// }
 
 # https://www.packer.io/plugins/builders/amazon/ebs
 source "amazon-ebs" "my-ami" {
@@ -67,8 +67,8 @@ source "amazon-ebs" "my-ami" {
   ssh_username  = "${var.ssh_username}"
   // vpc_id= "vpc-07f293fb1908fc8b4"
   subnet_id     = "${var.subnet_id}"
-  access_key              = "${var.aws_access_key_id}"
-  secret_key              = "${var.aws_secret_access_key}"
+  // access_key              = "${var.aws_access_key_id}"
+  // secret_key              = "${var.aws_secret_access_key}"
   // security_group_id = "sg-00d6a8e71ffc8ef3c"
   launch_block_device_mappings {
     delete_on_termination = true
