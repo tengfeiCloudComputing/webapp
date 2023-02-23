@@ -18,7 +18,9 @@ A cloud-native application is an application that is specifically designed for c
 
 **CSS:** N/A
 
+**AMI Builder:** Packer and SystemD
 
+**Cloud:** AWS
 
 ---
 
@@ -38,13 +40,38 @@ Install Postman to test APIs
 
 
 
+Create packer script and systemd script to deploy the auto run webapp on an EC2 instance
+
+
+
 ## Deploy Instructions
 
-Deploy the application locally on Tomcat
+1. Deploy the application locally on Tomcat
+
+2. The instance is autostarted in AMI instance built with packer
+
+   1. To run packer manually
+
+      ```
+      # build artifact
+      maven install
+      # validate packer
+      packer validate ami.pkr.hcl
+      # fmt
+      packer fmt ami.pkr.hcl
+      # build AMI
+      packer build ami.pkr.hcl
+      ```
+
+3. During github PR, there will be a packer validate; If PR is successful, there will be an AMI built after that
+
+
 
 
 
 ## User Story
+
+#### User
 
 1. All API request/response payloads should be in JSON.
 2. No UI should be implemented for the application.
@@ -74,3 +101,31 @@ Deploy the application locally on Tomcat
    4. A user can only update their own account information.
 9. Get user information
    1. As a user, I want to get my account information. Response payload should return all fields for the user except for `password`.
+
+#### Product
+
+1. All API request/response payloads should be in JSON.
+2. No UI should be implemented for the application.
+3. As a user, I expect all API calls to return with a proper [HTTP status code (Links to an external site.)](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes).
+4. As a user, I expect the code quality of the application to be maintained to the highest standards using the unit and/or integration tests.
+5. Add Product
+   1. Any user can add a product.
+   2. Product quantity cannot be less than 0.
+6. Update Product
+   1. Only the user who added the product can update the product.
+   2. Users can use either the PATCH or PUT API for updates.
+7. Delete Product
+   1. Only the user who added the product can delete the product.
+
+
+
+#### Packer
+
+- Use **Amazon Linux 2** as your source image to create a custom AMI using Packer.
+- All AMIs you build should be private.
+  - Only you can deploy EC2 instances from it.
+- All AMI builds should happen in your `dev` AWS account and shared with your `demo` account.
+- AMI builds should be set up to run in your `default` VPC.
+- The AMI should include everything needed to run your application and the application binary itself. For e.g., if you are using Tomcat to run your Java web application, your AMI must have Java & Tomcat installed. You should also make sure the Tomcat service will start up when an instance is launched. If you are using Python, make sure you have the right version of python and the libraries you need to be installed in the AMI.
+- The packer template should be stored in the same repo as the web application.
+- **For this assignment only, install MySQL or PostgreSQL locally in the AMI.**
