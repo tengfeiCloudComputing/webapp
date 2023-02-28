@@ -85,9 +85,15 @@ build {
     sources = ["target/webapp-0.0.1-SNAPSHOT.jar"]
     destination = "~/webapp-0.0.1-SNAPSHOT.jar"
   }
-    provisioner "file" {
+
+  provisioner "file" {
     sources = ["myapp.service"]
     destination = "~/myapp.service"
+  }
+
+  provisioner "file" {
+    sources = ["src/main/resources/application.properties"]
+    destination = "~/application.properties"
   }
 
   provisioner "shell" {
