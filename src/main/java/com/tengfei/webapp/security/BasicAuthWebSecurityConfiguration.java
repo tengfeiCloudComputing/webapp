@@ -42,7 +42,7 @@ public class BasicAuthWebSecurityConfiguration{
         http
                 .authorizeHttpRequests()
 //                .requestMatchers(HttpMethod.GET,"/v1/user/**").permitAll()
-                .requestMatchers("/").permitAll()
+//                .requestMatchers("/").permitAll()
 //                .requestMatchers("/v1/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -53,7 +53,7 @@ public class BasicAuthWebSecurityConfiguration{
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/v1/user")
-                .requestMatchers(HttpMethod.GET,"/healthz").requestMatchers(HttpMethod.GET,"/v1/product/**");
+                .requestMatchers(HttpMethod.GET,"/healthz").requestMatchers(HttpMethod.GET,"/v1/product/{productId}");
     }
 
 //    @Bean

@@ -1,7 +1,7 @@
 sudo yum update -y 
-sudo yum install -y mariadb-server 
-sudo systemctl start mariadb 
-sudo systemctl enable mariadb 
+#sudo yum install -y mariadb-server
+#sudo systemctl start mariadb
+#sudo systemctl enable mariadb
 
 sudo yum install java-17-amazon-corretto-devel
 # sudo yum remove java-17-amazon-corretto-devel
@@ -16,10 +16,10 @@ sudo yum install java-17-amazon-corretto-devel
 # cd
 
 # maven
-sudo wget https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-
-sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-sudo yum install -y apache-maven
+#sudo wget https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+#
+#sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+#sudo yum install -y apache-maven
 
 sudo /usr/sbin/alternatives --config java
 sudo /usr/sbin/alternatives --config javac
