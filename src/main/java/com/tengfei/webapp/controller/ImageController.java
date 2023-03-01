@@ -107,25 +107,28 @@ public class ImageController {
         String url="https://s3.amazonaws.com/"+bucketName+"/"+key;
         String filename = file.getOriginalFilename();
 
-//        // check format
-//        if (filename.length()>0){
-//            String suffix = filename.split(".")[1].strip();
-//
-//            Set<String> set = new HashSet<>();
-//            set.add("jpg");
-//            set.add("png");
-//            set.add("jpeg");
-//            set.add("gif");
-//            set.add("bmp");
-//            set.add("tiff");
-//            set.add("tif");
-//            set.add("svg");
-//            set.add("webp");
-//
-//            if (!set.contains(suffix)){
-//                return ResponseEntity.status(400).build();
-//            }
-//        }
+        // check format
+        List<String> set = new LinkedList<>();
+        set.add("jpg");
+        set.add("png");
+        set.add("jpeg");
+        set.add("gif");
+        set.add("bmp");
+        set.add("tiff");
+        set.add("tif");
+        set.add("svg");
+        set.add("webp");
+
+        boolean isImage = false;
+        for (String e : set) {
+            if (filename.endsWith(e)) {
+                isImage = true;
+            }
+        }
+
+        if (!isImage){
+            return ResponseEntity.status(400).build();
+        }
 
         try {
             PutObjectRequest request = new PutObjectRequest(bucketName, key.toString(), file.getInputStream(), metadata);
@@ -159,12 +162,16 @@ public class ImageController {
             return ResponseEntity.status(404).build();
         }
 
+
         if (!currentProduct.get().getUser().equals(loginUser)){
             return ResponseEntity.status(403).build();
         }
 
         Optional<Image> foundImage = imagePerository.findById(image_id);
 
+        if (foundImage.isEmpty()){
+            return ResponseEntity.status(404).build();
+        }
         return ResponseEntity.status(200).body(foundImage.get());
     }
 
