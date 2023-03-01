@@ -48,6 +48,8 @@ public class Image {
         this.product = product;
     }
 
+    public Integer getProductId(){return product.getId();}
+
     public String getFile_name() {
         return file_name;
     }
@@ -71,4 +73,5 @@ public class Image {
     public void setS3_bucket_path(String s3_bucket_path) {
         this.s3_bucket_path = s3_bucket_path;
     }
+
 }
