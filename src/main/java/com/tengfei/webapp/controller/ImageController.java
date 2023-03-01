@@ -14,6 +14,7 @@ import com.tengfei.webapp.model.User;
 import com.tengfei.webapp.repository.ImagePerository;
 import com.tengfei.webapp.repository.ProductRepository;
 import com.tengfei.webapp.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,6 +32,9 @@ public class ImageController {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ImagePerository imagePerository;
+
+    @Value("${userBucket.name}")
+    private String userBucketName;
 
     public ImageController(UserRepository userRepository, ProductRepository productRepository, ImagePerository imagePerository) {
         this.userRepository = userRepository;
@@ -82,18 +86,18 @@ public class ImageController {
         }
 
         AmazonS3 amazonS3 = AmazonS3ClientBuilder.defaultClient();
-        List<Bucket> buckets=amazonS3.listBuckets();
-        String bucketName="s";
-
-        // get bucket
-        int count=0;
-        for (Bucket b:buckets) {
-            bucketName=b.getName();
-            count++;
-            if(count==2){
-                break;
-            }
-        }
+//        List<Bucket> buckets=amazonS3.listBuckets();
+        String bucketName=userBucketName;
+        System.out.println(bucketName);
+//        // get bucket
+//        int count=0;
+//        for (Bucket b:buckets) {
+//            bucketName=b.getName();
+//            count++;
+//            if(count==2){
+//                break;
+//            }
+//        }
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
@@ -185,18 +189,18 @@ public class ImageController {
 
         // Amazon find url in s3
         AmazonS3 amazonS3 = AmazonS3ClientBuilder.defaultClient();
-        List<Bucket> buckets=amazonS3.listBuckets();
-        String bucketName="s";
+//        List<Bucket> buckets=amazonS3.listBuckets();
+        String bucketName=userBucketName;
 
-        // get bucket
-        int count=0;
-        for (Bucket b:buckets) {
-            bucketName=b.getName();
-            count++;
-            if(count==2){
-                break;
-            }
-        }
+//        // get bucket
+//        int count=0;
+//        for (Bucket b:buckets) {
+//            bucketName=b.getName();
+//            count++;
+//            if(count==2){
+//                break;
+//            }
+//        }
 
         String[] urls = foundImage.get().getS3_bucket_path().split("/");
         try{
