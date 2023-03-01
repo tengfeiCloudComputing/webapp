@@ -187,6 +187,9 @@ public class ImageController {
 
         Optional<Image> foundImage = imagePerository.findById(image_id);
 
+        if (foundImage.isEmpty()){
+            return ResponseEntity.status(404).build();
+        }
         // Amazon find url in s3
         AmazonS3 amazonS3 = AmazonS3ClientBuilder.defaultClient();
 //        List<Bucket> buckets=amazonS3.listBuckets();

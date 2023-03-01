@@ -3,8 +3,7 @@ sudo yum update -y
 #sudo systemctl start mariadb
 #sudo systemctl enable mariadb
 
-sudo yum install java-17-amazon-corretto-devel
-# sudo yum remove java-17-amazon-corretto-devel
+sudo yum install java-17-amazon-corretto-devel -y
 
 # export VER="9.0.62"
 # wget https://archive.apache.org/dist/tomcat/tomcat-9/v${VER}/bin/apache-tomcat-${VER}.tar.gz
@@ -24,7 +23,7 @@ sudo yum install java-17-amazon-corretto-devel
 #sudo /usr/sbin/alternatives --config java
 #sudo /usr/sbin/alternatives --config javac
 
-sudo amazon-linux-extras install nginx1
+sudo amazon-linux-extras install nginx1 -y
 sudo systemctl start nginx
 sudo systemctl status nginx
 
