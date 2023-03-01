@@ -21,8 +21,8 @@ sudo yum install java-17-amazon-corretto-devel
 #sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
 #sudo yum install -y apache-maven
 
-sudo /usr/sbin/alternatives --config java
-sudo /usr/sbin/alternatives --config javac
+#sudo /usr/sbin/alternatives --config java
+#sudo /usr/sbin/alternatives --config javac
 
 sudo amazon-linux-extras install nginx1
 sudo systemctl start nginx
