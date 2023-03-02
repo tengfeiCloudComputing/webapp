@@ -65,7 +65,7 @@ Create packer script and systemd script to deploy the auto run webapp on an EC2 
 
 3. During github PR, there will be a packer validate; If PR is successful, there will be an AMI built after that
 
-
+4. After AMI is generated, run terraform to connect S3 and RDS to the instance
 
 
 
