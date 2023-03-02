@@ -102,8 +102,6 @@ public class ImageController {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         UUID key = UUID.randomUUID();
-        PutObjectResult putObjectResult = amazonS3.putObject(bucketName, key.toString(), file.getInputStream(), metadata);
-
         String url="https://s3.amazonaws.com/"+bucketName+"/"+key;
         String filename = file.getOriginalFilename();
 
@@ -123,6 +121,7 @@ public class ImageController {
         for (String e : set) {
             if (filename.endsWith(e)) {
                 isImage = true;
+                metadata.setContentType("image/"+e);
             }
         }
 
