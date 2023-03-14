@@ -1,5 +1,5 @@
 # webapp
-> aim to build a cloud native web application
+> aim to build a cloud native web application..
 
 ## Tech Stack
 A cloud-native application is an application that is specifically designed for cloud computing architecture. It takes advantage of cloud computing frameworks, which are composed of loosely coupled cloud services.
