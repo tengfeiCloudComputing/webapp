@@ -11,7 +11,7 @@ sudo yum install java-17-amazon-corretto-devel -y
 
 # cd apache-tomcat-${VER}/bin
 # ./catalina.sh start
-sudo yum install amazon-cloudwatch-agent -y
+
 # cd
 
 # maven
@@ -32,7 +32,6 @@ sudo systemctl status nginx
 # java -jar webapp-0.0.1-SNAPSHOT.jar
 
 sudo cp myapp.service /etc/systemd/system/
-sudo cp cloudwatch-config.json /opt/
 
 sudo systemctl enable myapp.service
 sudo systemctl start myapp.service

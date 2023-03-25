@@ -90,15 +90,11 @@ build {
     sources = ["myapp.service"]
     destination = "~/myapp.service"
   }
-  provisioner "file" {
-    sources = ["cloudwatch-config.json"]
-    destination = "~/cloudwatch-config.json"
-  }
+
   provisioner "file" {
     sources = ["src/main/resources/application.properties"]
     destination = "~/application.properties"
   }
-
 
   provisioner "shell" {
     environment_vars = [
