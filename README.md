@@ -129,3 +129,28 @@ Create packer script and systemd script to deploy the auto run webapp on an EC2 
 - The AMI should include everything needed to run your application and the application binary itself. For e.g., if you are using Tomcat to run your Java web application, your AMI must have Java & Tomcat installed. You should also make sure the Tomcat service will start up when an instance is launched. If you are using Python, make sure you have the right version of python and the libraries you need to be installed in the AMI.
 - The packer template should be stored in the same repo as the web application.
 - **For this assignment only, install MySQL or PostgreSQL locally in the AMI.**
+
+
+
+## IAM Users, Roles & Policies
+
+Add IAM roles & policies needed to meet the assignment objectives to the Terraform Template.
+
+## Application Logging & Metrics
+
+### AMI Updates
+
+1. Update your packer template to [installLinks to an external site.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Agent-on-first-instance.html#download-CloudWatch-Agent-on-EC2-Instance-first) the [Unified CloudWatch AgentLinks to an external site.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/UseCloudWatchUnifiedAgent.html) in your AMIs.
+2. Your CloudWatch agent must be set up to start automatically when an EC2 instance is launched using your AMI.
+
+### IAM Updates
+
+- Update the Terraform template to [Update the IAM role attached to the EC2 instance for use with CloudWatch AgentLinks to an external site.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-iam-roles-for-cloudwatch-agent.html).
+
+### WebApp User Stories
+
+1. As a user, I want all application log data to be available in CloudWatch.
+2. As a user, I want metrics on API usage available in CloudWatch.
+3. Create the following custom metrics for every API we have implemented in the web application. The metrics data should be collected in CloudWatch.
+   1. `Count` the number of times each API is called.
+4. You can retrieve custom metrics using either [StatsDLinks to an external site.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Agent-custom-metrics-statsd.html) or [collectdLinks to an external site.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Agent-custom-metrics-collectd.html).
