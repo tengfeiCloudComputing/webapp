@@ -22,7 +22,7 @@ A cloud-native application is an application that is specifically designed for c
 
 **Cloud:** AWS
 
----
+----
 
 
 
