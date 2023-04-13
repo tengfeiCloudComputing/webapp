@@ -34,4 +34,24 @@ jobs:
           command: build      
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PACKER }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PACKER }}   
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PACKER }}
+
+      - name: Launch Template
+        run: |
+          account_id=$(aws sts get-caller-identity --query "Account" --output text)
+          latest_ami=$(aws ec2 describe-images --filters "Name=owner-id,Values=266883092057" --query "sort_by(Images, &CreationDate)[-1].[ImageId]" --output text)
+          latest_LaunchTemplate_id=$(aws ec2 describe-launch-templates --query "sort_by(LaunchTemplates, &CreateTime)[-1].[LaunchTemplateId]" --output text)
+          echo $account_id
+          echo $latest_ami
+          if [[ ${latest_LaunchTemplate_id} != 'None' ]]; then
+            echo $latest_LaunchTemplate_id
+            latestAutoScalingGroupName=$(aws autoscaling describe-auto-scaling-groups --query "sort_by(AutoScalingGroups, &CreatedTime)[-1].[AutoScalingGroupName]" --output text)
+            echo $latestAutoScalingGroupName
+            latestVersion=$(aws ec2 describe-launch-templates --launch-template-id $latest_LaunchTemplate_id --query "sort_by(LaunchTemplates, &CreateTime)[-1].[LatestVersionNumber]" --output text)
+            echo $latestVersion
+            aws ec2 create-launch-template-version --launch-template-id $latest_LaunchTemplate_id --version-description latest --source-version $latestVersion --launch-template-data "ImageId=$latest_ami"
+            aws autoscaling start-instance-refresh --auto-scaling-group-name $latestAutoScalingGroupName
+          fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEMO }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }}
