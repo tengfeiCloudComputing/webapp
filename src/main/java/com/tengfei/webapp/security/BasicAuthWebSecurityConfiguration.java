@@ -52,8 +52,8 @@ public class BasicAuthWebSecurityConfiguration{
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/v1/user")
-                .requestMatchers(HttpMethod.GET,"/healthz").requestMatchers(HttpMethod.GET,"/v1/product/{productId}");
+        return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/v2/user")
+                .requestMatchers(HttpMethod.GET,"/healthz").requestMatchers(HttpMethod.GET,"/v2/product/{productId}");
     }
 
 //    @Bean
