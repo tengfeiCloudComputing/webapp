@@ -40,7 +40,7 @@ public class ProductController {
         this.userRepository=userRepository;
     }
 
-    @PostMapping("/v1/product")
+    @PostMapping("/v2/product")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product){
 
         statsDClient.incrementCounter("csye6225.http.create.product");
@@ -80,7 +80,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    @GetMapping("/v1/product/{productId}")
+    @GetMapping("/v2/product/{productId}")
     public ResponseEntity<Product> getProductInformation(@PathVariable int productId){
         statsDClient.incrementCounter("csye6225.http.get.product.information");
         logger.info("getting product info");
@@ -94,7 +94,7 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/v1/product/{productId}")
+    @PutMapping("/v2/product/{productId}")
     public ResponseEntity<Product> updateProductPut(@PathVariable int productId, @Valid @RequestBody Product productDetail){
         statsDClient.incrementCounter("csye6225.http.update.product.information");
         logger.info("updating product info");
@@ -161,7 +161,7 @@ public class ProductController {
         }
     }
 
-    @PatchMapping("/v1/product/{productId}")
+    @PatchMapping("/v2/product/{productId}")
     public ResponseEntity<Product> patchProduct(@PathVariable Integer productId, @Valid @RequestBody Product productDetail){
         statsDClient.incrementCounter("csye6225.http.patch.product");
         logger.info("patching product info");
@@ -222,7 +222,7 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("/v1/product/{productId}")
+    @DeleteMapping("/v2/product/{productId}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Integer productId){
         statsDClient.incrementCounter("csye6225.http.delete.product");
         logger.info("deleting product");
