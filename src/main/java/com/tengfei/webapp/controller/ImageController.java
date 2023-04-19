@@ -50,7 +50,7 @@ public class ImageController {
         this.imagePerository = imagePerository;
     }
 
-    @GetMapping("/v1/product/{product_id}/image")
+    @GetMapping("/v2/product/{product_id}/image")
     public ResponseEntity<List<Image>> getAllImage(@PathVariable int product_id){
         statsDClient.incrementCounter("csye6225.http.get.all.images");
         logger.info("getting all the image of a product");
@@ -77,7 +77,7 @@ public class ImageController {
         return ResponseEntity.status(200).body(imagesByProduct_id.get());
     }
 
-    @PostMapping("/v1/product/{product_id}/image")
+    @PostMapping("/v2/product/{product_id}/image")
     public ResponseEntity<Image> upLoadImage(@PathVariable int product_id, @RequestParam("file") MultipartFile file) throws IOException {
         statsDClient.incrementCounter("csye6225.http.upload.an.image");
         logger.info("uploading an image");
@@ -165,7 +165,7 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/v1/product/{product_id}/image/{image_id}")
+    @GetMapping("/v2/product/{product_id}/image/{image_id}")
     public ResponseEntity<Image> getImageDetail(@PathVariable String image_id, @PathVariable String product_id){
         statsDClient.incrementCounter("csye6225.http.get.an.image.detail");
         logger.info("getting an image detail");
@@ -201,7 +201,7 @@ public class ImageController {
         return ResponseEntity.status(200).body(foundImage.get());
     }
 
-    @DeleteMapping("/v1/product/{product_id}/image/{image_id}")
+    @DeleteMapping("/v2/product/{product_id}/image/{image_id}")
     public ResponseEntity<String> deleteImage(@PathVariable String image_id, @PathVariable String product_id){
         statsDClient.incrementCounter("csye6225.http.delete.an.image");
         logger.info("deleting an image");
