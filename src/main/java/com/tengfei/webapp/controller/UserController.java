@@ -34,7 +34,7 @@ public class UserController {
         this.repository=repository;
     }
 
-    @PostMapping("/v1/user")
+    @PostMapping("/v2/user")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         statsDClient.incrementCounter("csye6225.http.post.user");
         logger.info("Creating User...");
@@ -68,7 +68,7 @@ public class UserController {
         return ResponseEntity.status(201).body(user);
     }
 
-    @PutMapping("/v1/user/{userId}")
+    @PutMapping("/v2/user/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable int userId,@Valid @RequestBody User userDetails){
         logger.info("updating User...");
         statsDClient.incrementCounter("csye6225.http.update.user");
@@ -114,7 +114,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/v1/user/{userId}")
+    @GetMapping("/v2/user/{userId}")
     public ResponseEntity<User> retrieveUserAccountInfo(@PathVariable int userId) {
         statsDClient.incrementCounter("csye6225.http.retrieve.specific.user");
         logger.info("retrieving user info");
